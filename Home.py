@@ -10,26 +10,22 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 import seaborn as sns
-import numpy as np
-import pandas as pd
 from pandas.plotting import parallel_coordinates
 
-import os
-import sqlite3
-import math
-from collections import Counter
-from pathlib import Path
-from tqdm import tqdm
+#import os
+#import sqlite3
+#import math
+#from collections import Counter
+#from pathlib import Path
+#from tqdm import tqdm
 
 # Visualization
-import seaborn as sns
 import matplotlib as mpl
-import matplotlib.pyplot as plt
-import plotly
-import plotly.graph_objects as go
-import plotly.express as px
-from plotly.subplots import make_subplots
-import plotly.io as pio
+#import plotly
+#import plotly.graph_objects as go
+#import plotly.express as px
+#from plotly.subplots import make_subplots
+#import plotly.io as pio
 
 # Model
 from scipy.stats import skew
@@ -45,9 +41,9 @@ from sklearn.metrics import roc_auc_score
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
-from sklearn.preprocessing import OrdinalEncoder, OneHotEncoder
-from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import RandomizedSearchCV
+#from sklearn.preprocessing import OrdinalEncoder, OneHotEncoder
+#from sklearn.model_selection import GridSearchCV
+#from sklearn.model_selection import RandomizedSearchCV
 
 import streamlit as st
 
@@ -159,7 +155,6 @@ X = df_train[features].set_index("transaction_id")
 y = df_train['is_fraud']
 
 print('X shape:{}\ny shape:{}'.format(X.shape,y.shape))
-from sklearn.preprocessing import OrdinalEncoder
 
 enc = OrdinalEncoder(dtype=np.int64)
 enc.fit(X.loc[:,['category','merchant','job']])
@@ -199,7 +194,6 @@ print('X_test shape:{}\ny_test shape:{}'.format(X_test.shape,y_test.shape))
 from sklearn.feature_selection import chi2
 f_p_values=chi2(X_train,y_train)
 f_p_values
-import pandas as pd
 p_values=pd.Series(f_p_values[1])
 p_values.index=X_train.columns
 p_values.sort_index(ascending=False)
@@ -227,7 +221,6 @@ y_pred = dtree.predict(X_test)
 print(classification_report(y_test,y_pred))
 from sklearn.metrics import average_precision_score, precision_recall_curve
 from sklearn.metrics import auc, plot_precision_recall_curve
-import matplotlib.pyplot as plt
 
 # Data to plot precision - recall curve
 precision, recall, thresholds = precision_recall_curve(y_test, y_pred)
@@ -246,15 +239,12 @@ sns.heatmap(cfs_matrix, cmap='viridis', annot=True, fmt='d', annot_kws=dict(font
 # In[22]:
 
 
-from sklearn.tree import DecisionTreeClassifier
 
 dtree= DecisionTreeClassifier()
 dtree.fit(X_train_smote, y_train_smote)
 y_pred = dtree.predict(X_test)
 print(classification_report(y_test,y_pred))
-from sklearn.metrics import average_precision_score, precision_recall_curve
-from sklearn.metrics import auc, plot_precision_recall_curve
-import matplotlib.pyplot as plt
+
 
 # Data to plot precision - recall curve
 precision, recall, thresholds = precision_recall_curve(y_test, y_pred)
@@ -282,9 +272,7 @@ y_pred = rf_random.predict(X_test)
 
 # Print report
 print(classification_report(y_test, y_pred))
-from sklearn.metrics import average_precision_score, precision_recall_curve
-from sklearn.metrics import auc, plot_precision_recall_curve
-import matplotlib.pyplot as plt
+
 
 # Data to plot precision - recall curve
 precision, recall, thresholds = precision_recall_curve(y_test, y_pred)
@@ -308,9 +296,6 @@ rf_random = RandomForestClassifier()
 rf_random.fit(X_train_smote, y_train_smote)
 y_pred = rf_random.predict(X_test)
 print(classification_report(y_test, y_pred))
-from sklearn.metrics import average_precision_score, precision_recall_curve
-from sklearn.metrics import auc, plot_precision_recall_curve
-import matplotlib.pyplot as plt
 
 # Data to plot precision - recall curve
 precision, recall, thresholds = precision_recall_curve(y_test, y_pred)
@@ -344,7 +329,7 @@ print(classification_report(y_test, y_pred))
 
 
 print("SMOTE- XG Boost Classifier")
-from sklearn.ensemble import GradientBoostingClassifier
+
 XG_random = GradientBoostingClassifier()
 
 XG_random.fit(X_train_smote, y_train_smote)
@@ -371,7 +356,6 @@ print(classification_report(y_test,y_pred))
 
 
 print("SMOTE- Logistic Regression")
-from sklearn.linear_model import LogisticRegression
 
 LR= LogisticRegression()
 LR.fit(X_train_smote, y_train_smote)
