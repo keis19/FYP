@@ -54,6 +54,15 @@ import streamlit as st
 
 # In[4]:
 
+st.set_page_config(
+  page title: "Something's Fishy"
+  page_icon="🎣"
+  layout="wide"
+)
+
+st.title("Something's Fishy")
+st.header("We'll help you discover if your data contains any fraud cases")
+# st.sidebar.success("Select a page above.")
 
 uploaded_file = st.file_uploader("Choose a file")
 df_train=pd.read_csv(uploaded_file)
