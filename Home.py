@@ -62,7 +62,14 @@ st.set_page_config(
 
 st.title("Something's Fishy")
 st.header("We'll help you discover if your data contains any fraud cases")
-# st.sidebar.success("Select a page above.")
+st.sidebar.success("Select a page ⬆⬆.")
+
+st.markdown(
+    """
+   Welcome to the home page of Somethig's Fishy. We help you to detect fraud cases from your dataset using our Machine Learning Algorithm.
+   Upload your file to get started !
+"""
+)
 
 uploaded_file = st.file_uploader("Choose a file")
 df_train=pd.read_csv(uploaded_file)
@@ -128,115 +135,6 @@ np.round(df_train.describe(), 2)
 df_train.columns
 
 
-# In[11]:
-
-
-#EDA
-groups = [pd.Grouper(key="transaction_time", freq="1W"), "is_fraud"]
-df_ = df_train.groupby(by=groups).agg({"amount(usd)":'mean',"transaction_id":"count"}).reset_index()
-
-# def add_traces(df, x, y,hue, mode, cmap, showlegend=None):
-#     name_map = {1:"Yes", 0:"No"}
-#     traces = []
-#     for flag in df[hue].unique():
-#         traces.append(
-#             go.Scatter(
-#                 x=df[df[hue]==flag][x],
-#                 y=df[df[hue]==flag][y],
-#                 mode=mode,
-#                 marker=dict(color=cmap[flag]),
-#                 showlegend=showlegend,
-#                 name=name_map[flag]
-#             )
-#         )
-#     return traces
-
-def add_traces(df, x, y, hue, mode, cmap, showlegend=None):
-    name_map = {1:"Yes", 0:"No"}
-    traces = []
-    for flag in df[hue].unique():
-        if mode == 'lines':
-            traces.append(
-                go.Scatter(
-                    x=df[df[hue]==flag][x],
-                    y=df[df[hue]==flag][y],
-                    mode=mode,
-                    marker=dict(color=cmap[flag]),
-                    showlegend=showlegend,
-                    name=name_map[flag]
-                )
-            )
-        elif mode == 'markers':
-            traces.append(
-                go.Scatter(
-                    x=df[df[hue]==flag][x],
-                    y=df[df[hue]==flag][y],
-                    mode=mode,
-                    marker=dict(color=cmap[flag]),
-                    showlegend=showlegend,
-                    name=name_map[flag],
-                    text=df['transaction_time'],
-                    hoverinfo='text'
-                )
-            )
-    return traces
-
-fig = make_subplots(rows=2, cols=2,
-                    specs=[
-                        [{}, {}],
-                        [{"colspan":2}, None]
-                    ],
-                    subplot_titles=("Changes in Amount (USD) over time ⌚", "The No. of Transactions done overtime 💰",
-                                    "Number of transaction done by Amount (USD)")
-                   )
-
-ntraces = add_traces(df=df_,x='transaction_time',y='amount(usd)',hue='is_fraud',mode='lines',
-                    showlegend=True, cmap=['blue','red'])
-
-
-
-for trace in ntraces:
-    fig.add_trace(
-        trace,
-        row=1,col=1
-    )
-    
-ntraces = add_traces(df=df_,x='transaction_time',y='transaction_id',hue='is_fraud',mode='lines',
-                    showlegend=False, cmap=['blue','red'])
-for trace in ntraces:
-    fig.add_trace(
-        trace,
-        row=1,col=2
-    )
-
-
-ntraces = add_traces(df=df_,x='transaction_id',y='amount(usd)',hue='is_fraud',mode='markers',
-                    showlegend=True, cmap=['blue','red'])
-
-for trace in ntraces:
-    fig.add_trace(
-        trace,
-        row=2,col=1
-    )
-
-fig.update_layout(height=780,
-                  width=960,
-                  legend=dict(title='Is fraud?'),
-                  plot_bgcolor='#fafafa',
-                  title='Overview'
-                 )
-fig.update_xaxes(title_text="Transaction Time", row=1, col=1)
-fig.update_yaxes(title_text="Amount (USD)", row=1, col=1)
-# fig.update_xaxes(title_text="Transaction Time", row=1, col=2)
-# fig.update_xaxes(title_text="No. of Transactions", row=1, col=2)
-# fig.update_xaxes(title_text="Transaction Time", row=2, col=2)
-# fig.update_xaxes(title_text="No. of Transactions", row=2, col=2)
-
-
-
-
-st.write(fig.show())
-
 
 # In[12]:
 
@@ -247,69 +145,6 @@ print(df_train['transaction_time'])
 # In[13]:
 
 
-df_ = df_train.groupby(by=[pd.Grouper(key="transaction_time", freq="1W"),
-                           'is_fraud','category']).agg({"amount(usd)":'mean',"transaction_id":"count"}).reset_index()
-
-fig = px.scatter(df_,
-        x='transaction_time',
-        y='amount(usd)',
-        color='is_fraud',
-        facet_col ='category',
-        facet_col_wrap=3,
-        facet_col_spacing=.04,
-        color_discrete_map={0:'#61E50F', 1:'#D93C1D'}
-)
-
-fig.update_layout(height=1400,
-                  width=960,
-                  legend=dict(title='Is fraud?'),
-                  plot_bgcolor='#fafafa'
-                 )
-
-fig.update_yaxes(matches=None)
-fig.for_each_yaxis(lambda yaxis: yaxis.update(showticklabels=True))
-fig.for_each_xaxis(lambda xaxis: xaxis.update(showticklabels=True, title=''))
-
-st.write(fig.show())
-
-
-# In[14]:
-
-
-groups = ['is_fraud','job']
-df_ = df_train.groupby(by=groups).agg({"amount(usd)":'mean',"transaction_id":"count"}).fillna(0).reset_index()
-
-# Top 10 jobs had most fraud transactions.
-df_ = df_[df_.is_fraud==1].sort_values(by='transaction_id',
-                                       ascending=False).drop_duplicates('job', keep='first').iloc[:10, :]
-df_
-fig = px.bar(df_,
-             y='job', x='transaction_id',
-             color='amount(usd)',
-             color_continuous_scale=px.colors.sequential.Magma,
-             labels={'job':'Job title', 
-                     'transaction_id': 'Number of fraud transactions'},
-             category_orders = {"job": df_.job.values},
-             width=960,
-             height=600)
-
-fig.update_layout(
-    title=dict(
-        text='Amount(usd) among top 10 jobs with the most fraud transactions'
-    ),
-    plot_bgcolor='#fafafa'
-)
-
-fig.update_coloraxes(
-    colorbar=dict(
-        title='Amount(usd) of transactions',
-        orientation='h',
-        x=1
-    ),
-    reversescale=True
-)
-
-st.write(fig.show())
 
 
 # In[15]:
