@@ -67,9 +67,6 @@ df_train=pd.read_csv(uploaded_file)
 # df_train= pd.read_csv("C:/Users/Theeveeyan/Downloads/Keis/fraudTrain.csv")
 df_train = df_train.drop(df_train.columns[0], axis=1)
 
-df_test= pd.read_csv("C:/Users/Theeveeyan/Downloads/Keis/fraudTest.csv")
-df_test = df_test.drop(df_test.columns[0], axis=1)
-
 df_train.head()
 
 
