@@ -1,14 +1,8 @@
-
+streamlit
 scikit-learn
-time
 numpy
 pandas
 matplotlib
 seaborn
-os
-sqlite3
-math
-Counter
 Path
-tqdm
 plotly
