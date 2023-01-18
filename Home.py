@@ -1,45 +1,34 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[34]:
-
-
 import numpy as np 
 import pandas as pd 
+
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 import seaborn as sns
-from pandas.plotting import parallel_coordinates
 
+from collections import Counter
+from datetime import datetime
 
-# Visualization
-import matplotlib as mpl
-#import plotly
-#import plotly.graph_objects as go
-#import plotly.express as px
-#from plotly.subplots import make_subplots
-#import plotly.io as pio
+import plotly.graph_objects as go
+import plotly.express as px
+from plotly.subplots import make_subplots
 
-# Model
-from scipy.stats import skew
-# import yellowbrick
 import sklearn
-from sklearn.decomposition import PCA 
-from sklearn.cluster import KMeans
-from sklearn.manifold import TSNE 
-from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error
-from sklearn.metrics import roc_auc_score
-from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
-#from sklearn.preprocessing import OrdinalEncoder, OneHotEncoder
-#from sklearn.model_selection import GridSearchCV
-#from sklearn.model_selection import RandomizedSearchCV
+from sklearn.preprocessing import OrdinalEncoder
+
+from sklearn.feature_selection import chi2
+from imblearn.over_sampling import SMOTE
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import average_precision_score, precision_recall_curve
+from sklearn.metrics import auc, plot_precision_recall_curve
 
 import streamlit as st
-
 
 # In[4]:
 
