@@ -26,6 +26,8 @@ df_train.hour_of_day = df_train.hour_of_day.astype('category')
 
 df_ = df_train.groupby(by=[pd.Grouper(key="transaction_time", freq="1W"),
                            'is_fraud','category']).agg({"amount(usd)":'mean',"transaction_id":"count"}).reset_index()
+df_ = df_train.groupby(by=[pd.Grouper(key="transaction_time", freq="1W"),
+                           'is_fraud','category']).agg({"amount(usd)":'mean',"transaction_id":"count"}).reset_index()
 
 fig = px.scatter(df_,
         x='transaction_time',
@@ -34,37 +36,35 @@ fig = px.scatter(df_,
         facet_col ='category',
         facet_col_wrap=3,
         facet_col_spacing=.04,
-        color_discrete_map={0:'#61E50F', 1:'#D93C1D'}
+        color_discrete_map={0:'purple', 1:'orange'}
 )
 
 fig.update_layout(height=1400,
                   width=960,
-                  legend=dict(title='Is fraud?'),
-                  plot_bgcolor='#fafafa'
+                  legend=dict(title='Fraud?'),
+                  plot_bgcolor='#303030'
                  )
 
-fig.update_yaxes(matches=None)
+fig.update_yaxes(title='Mean Amount (USD)', matches=None)
+fig.update_layout(title='Mean Amount(USD) based on Category')
+fig.update_traces(marker=dict(size=10))
 fig.for_each_yaxis(lambda yaxis: yaxis.update(showticklabels=True))
 fig.for_each_xaxis(lambda xaxis: xaxis.update(showticklabels=True, title=''))
 
-fig.show()
+st.write("EDA 1")
+st.write(fig)
 
-
-
-# In[14]:
-
-
-groups = ['is_fraud','job']
+groups =['is_fraud','job']
 df_ = df_train.groupby(by=groups).agg({"amount(usd)":'mean',"transaction_id":"count"}).fillna(0).reset_index()
 
 # Top 10 jobs had most fraud transactions.
 df_ = df_[df_.is_fraud==1].sort_values(by='transaction_id',
                                        ascending=False).drop_duplicates('job', keep='first').iloc[:10, :]
-
+df_
 fig = px.bar(df_,
              y='job', x='transaction_id',
              color='amount(usd)',
-             color_continuous_scale=px.colors.sequential.Magma,
+             color_continuous_scale=px.colors.sequential.Blues,
              labels={'job':'Job title', 
                      'transaction_id': 'Number of fraud transactions'},
              category_orders = {"job": df_.job.values},
@@ -73,9 +73,9 @@ fig = px.bar(df_,
 
 fig.update_layout(
     title=dict(
-        text='Amount(usd) among top 10 jobs with the most fraud transactions'
+        text='The Amount (USD) among the top 10 jobs with most fraud transactions.'
     ),
-    plot_bgcolor='#fafafa'
+    plot_bgcolor='#808080'
 )
 
 fig.update_coloraxes(
@@ -87,4 +87,85 @@ fig.update_coloraxes(
     reversescale=True
 )
 
+st.write("EDA 2")
 st.write(fig)
+
+# Specified list of 12 merchants with the highest number of transactions.
+top10_merchants = df_train.merchant.value_counts()[:10]
+
+df_ = df_train.groupby(by=[pd.Grouper(key="transaction_time", freq="1W"),'is_fraud',
+                           'merchant']).agg({"amount(usd)":'mean',"transaction_id":"count"}).reset_index()
+
+df_ = df_[df_.merchant.isin(top10_merchants.index)]
+
+fig = px.line(df_,
+        x='transaction_time',
+        y='amount(usd)',
+        color='is_fraud',
+        facet_col ='merchant',
+        facet_col_wrap=3,
+        facet_col_spacing=.06,
+        category_orders={'merchant': top10_merchants.index}, # order the subplots
+        color_discrete_map={1:'green', 0:'red'},
+        line_shape='hv'
+)
+
+fig.update_layout(height=1200,
+                  width=960,
+                  title='Top 10 merchants that have Highest Transactions per week',
+                  legend=dict(title='Is fraud?'),
+                  plot_bgcolor='#303030'
+                 )
+
+fig.update_yaxes(title='Mean Amount (USD)', matches=None)
+fig.for_each_yaxis(lambda yaxis: yaxis.update(showticklabels=True))
+
+st.write("EDA 3")
+st.write(fig)
+
+
+
+groups = ['credit_card_number']
+df_ = df_train.groupby(by=groups).agg({"amount(usd)":'mean',"transaction_id":"count"}).fillna(0).reset_index()
+df_.sort_values('transaction_id', ascending=False, inplace=True)
+
+df_ = df_train[df_train.is_fraud==1].groupby(by='hour_of_day').agg({'transaction_id':'count'}).reset_index()
+fig = px.area(data_frame=df_,
+       x='hour_of_day',
+       y='transaction_id',
+       labels={'transaction_id':'Number of transaction'},
+       )
+
+fig.update_layout(
+    title=dict(
+        text='Number of FRAUD transactions by hours of day'
+    ),
+    plot_bgcolor='#fafafa'
+)
+
+fig.update_xaxes(type='category')
+
+st.write("EDA 4")
+st.write(fig)
+
+df_ = df_train.groupby(by=[pd.Grouper(key="transaction_time", freq="1M"),
+                           'is_fraud','category']).agg({"amount(usd)":'sum',"transaction_id":"count"}).reset_index()
+
+fig = px.line(
+    df_[df_.is_fraud==1],
+    x='transaction_time',
+    y='amount(usd)',
+    color='category',
+    # barmode='stack'
+    # color_discrete_sequence=px.colors.qualitative.Dark24
+)
+
+fig.update_layout(height=600,
+                  width=960,
+                  legend=dict(title='Categories'),
+                  plot_bgcolor='#fafafa'
+                 )
+
+st.write("EDA 4")
+st.write(fig)
+
