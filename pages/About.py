@@ -12,7 +12,7 @@ st.write("In this current era, payments by credit card have become easier than e
 st.subheader("What can you find this application?")
 st.write ("Home page -Here you can upload your fie to get the number of fradulent cases")
 st.write("EDA - Here you can find some interesting data visualization related to your dataset")
-st.write("Documentation - This page (The One You're In) is where you get details on how to use the application")
+st.write("About - This page (The One You're In) is where you get details on how to use the application")
 
 st.subheader("How do you use this application")
 st.write( "1. Firstly upload your file by clicking Import file. (IMPORTANT NOTE THE FILE SHOULD BE IN CSV FORMAT) ")
