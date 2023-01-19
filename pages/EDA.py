@@ -50,8 +50,9 @@ fig.update_traces(marker=dict(size=10))
 fig.for_each_yaxis(lambda yaxis: yaxis.update(showticklabels=True))
 fig.for_each_xaxis(lambda xaxis: xaxis.update(showticklabels=True, title=''))
 
-st.write("EDA 1")
+st.subheader("Exploratory Data Analysis 1")
 st.write(fig)
+st.write("From this we get an overview on mean amount spend on Fradulent and Non-Fradulent cases based on category. We can see that some of the categories like travel, health & fintess and grocery have low spending for fraulent cases. While categoris like shopping, and entertainment have high expenditure. ")
 
 groups =['is_fraud','job']
 df_ = df_train.groupby(by=groups).agg({"amount(usd)":'mean',"transaction_id":"count"}).fillna(0).reset_index()
@@ -86,8 +87,10 @@ fig.update_coloraxes(
     reversescale=True
 )
 
-st.write("EDA 2")
+st.subheader("Exploratory Data Analysis 2")
 st.write(fig)
+st.write("From this we can get an overview of jobs with heavy fradulent transactions.")
+
 
 # Specified list of 12 merchants with the highest number of transactions.
 top10_merchants = df_train.merchant.value_counts()[:10]
@@ -119,8 +122,9 @@ fig.update_layout(height=1200,
 fig.update_yaxes(title='Mean Amount (USD)', matches=None)
 fig.for_each_yaxis(lambda yaxis: yaxis.update(showticklabels=True))
 
-st.write("EDA 3")
+st.write("Exploratory Data Analysis 3")
 st.write(fig)
+st.write("From this we can get a see of the few of the merchants in which credit card fraud occurs rapidly. This is a good visual to help detect common places visited by fraudsters. Some of the merchants to keep an eye out within this dataset would the merchant Killback LLC, Boyer PLC and Kuhn LLC.")
 
 
 
@@ -144,8 +148,9 @@ fig.update_layout(
 
 fig.update_xaxes(type='category')
 
-st.write("EDA 4")
+st.subheader("Exploratory Data Analysis 3")
 st.write(fig)
+st.write("From this we can see the common hours of the day in which fradulents transactions take place. Based on the figure it can be seen that alot of fradulents transaction take place during night to midnight.")
 
 df_ = df_train.groupby(by=[pd.Grouper(key="transaction_time", freq="1M"),
                            'is_fraud','category']).agg({"amount(usd)":'sum',"transaction_id":"count"}).reset_index()
@@ -165,6 +170,8 @@ fig.update_layout(height=600,
                   plot_bgcolor='#fafafa'
                  )
 
-st.write("EDA 4")
+st.subheader("Exploratory Data Analysis 4")
 st.write(fig)
+st.subheader("Explanation:")
+st.write("From this visualization we can see the months with highest expenditure based on category. It can clearly be seen that food and dining has the highest amoun spent and it occurs during Late November. Gas and transport also has a high expenditure during the month of September")
 
