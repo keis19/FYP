@@ -5,7 +5,7 @@ from collections import Counter
 from datetime import datetime
 
 # Initialization
-st.write(st.session_state)
+
 df_train = st.session_state['key']
 df_train.rename(columns={"trans_date_trans_time":"transaction_time",
                              "cc_num":"credit_card_number",
