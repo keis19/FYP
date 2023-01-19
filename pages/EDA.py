@@ -5,6 +5,23 @@ import streamlit as st
 # Initialization
 st.write(st.session_state)
 df_train = st.session_state['key']
+df_train.rename(columns={"trans_date_trans_time":"transaction_time",
+                             "cc_num":"credit_card_number",
+                             "amt":"amount(usd)",
+                             "trans_num":"transaction_id"},
+                    inplace=True)
+
+df_train["transaction_time"] = pd.to_datetime(df_train["transaction_time"], infer_datetime_format=True)
+df_train["dob"] = pd.to_datetime(df_train["dob"], infer_datetime_format=True)
+
+df_train['time'] = df_train['unix_time'].apply(datetime.utcfromtimestamp)
+df_train.drop('unix_time', axis=1)
+df_train['hour_of_day'] = df_train.time.dt.hour
+
+df_train.credit_card_number = df_train.credit_card_number.astype('category')
+df_train.is_fraud = df_train.is_fraud.astype('category')
+df_train.hour_of_day = df_train.hour_of_day.astype('category')
+
 df_ = df_train.groupby(by=[pd.Grouper(key="transaction_time", freq="1W"),
                            'is_fraud','category']).agg({"amount(usd)":'mean',"transaction_id":"count"}).reset_index()
 
