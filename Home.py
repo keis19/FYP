@@ -59,24 +59,33 @@ st.markdown(
 # In[4]:
 
 
+# uploaded_file = st.file_uploader("Choose a file")
+# df_train=pd.read_csv(uploaded_file)
+# # df_train= pd.read_csv("D:/Users/Acer/Desktop/Y3S1/Final Year Project/Datasets/fraudTrain.csv")
+# df_train = df_train.drop(df_train.columns[0], axis=1)
+# st.subheader("Data: ")
+# st.table(df_train.head())
 uploaded_file = st.file_uploader("Choose a file")
-df_train=pd.read_csv(uploaded_file)
-# df_train= pd.read_csv("D:/Users/Acer/Desktop/Y3S1/Final Year Project/Datasets/fraudTrain.csv")
-df_train = df_train.drop(df_train.columns[0], axis=1)
-st.subheader("Data: ")
-st.table(df_train.head())
-
-uploaded = False
-if not uploaded:
-    uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
-    uploaded = True
 if uploaded_file is None:
     st.error("Please upload a file")
 else:
-    try:
-        df_train=pd.read_csv(uploaded_file)
-    except Exception as e:
-        st.error("An error occurred while loading the file: " + str(e))
+    df_train=pd.read_csv(uploaded_file)
+    # df_train= pd.read_csv("D:/Users/Acer/Desktop/Y3S1/Final Year Project/Datasets/fraudTrain.csv")
+    df_train = df_train.drop(df_train.columns[0], axis=1)
+    st.subheader("Data: ")
+    st.table(df_train.head())
+
+# uploaded = False
+# if not uploaded:
+#     uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
+#     uploaded = True
+# if uploaded_file is None:
+#     st.error("Please upload a file")
+# else:
+#     try:
+#         df_train=pd.read_csv(uploaded_file)
+#     except Exception as e:
+#         st.error("An error occurred while loading the file: " + str(e))
 
 
 # In[5]:
