@@ -74,7 +74,8 @@ def process_file(uploaded_file):
         st.error("An error occurred while loading the file: " + str(e))
      
    
-    st.session_state['df_train']='df_train' 
+    if 'key' not in st.session_state:
+      st.session_state['key'] = df_train 
     df_train = df_train.drop(df_train.columns[0], axis=1)
     st.subheader("Data: ")
     st.table(df_train.head())
