@@ -4,7 +4,7 @@ import streamlit as st
 
 # Initialization
 
-
+df_train = st.session_state['key']
 df_ = df_train.groupby(by=[pd.Grouper(key="transaction_time", freq="1W"),
                            'is_fraud','category']).agg({"amount(usd)":'mean',"transaction_id":"count"}).reset_index()
 
