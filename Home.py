@@ -172,7 +172,7 @@ print(classification_report(y_test,y_pred))
 cm=confusion_matrix(y_test,y_pred)
 tn, fp, fn,tp = cm.ravel()
 print("Correctly predicted fraud cases: ", tp)
-st.subheader("There are a total of: ", tp ,"cases")
+st.write("There are a total of: ", tp ,"cases")
 
 # sns.heatmap(cm, cmap='viridis', annot=True, fmt='d', annot_kws=dict(fontsize=14))
 
