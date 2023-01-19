@@ -59,7 +59,7 @@ df_ = df_train.groupby(by=groups).agg({"amount(usd)":'mean',"transaction_id":"co
 # Top 10 jobs had most fraud transactions.
 df_ = df_[df_.is_fraud==1].sort_values(by='transaction_id',
                                        ascending=False).drop_duplicates('job', keep='first').iloc[:10, :]
-df_
+
 fig = px.bar(df_,
              y='job', x='transaction_id',
              color='amount(usd)',
