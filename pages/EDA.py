@@ -3,8 +3,7 @@ import plotly.express as px
 import streamlit as st
 
 # Initialization
-if 'key' not in st.session_state:
-  st.session_state['key'] = df_train
+
 
 df_ = df_train.groupby(by=[pd.Grouper(key="transaction_time", freq="1W"),
                            'is_fraud','category']).agg({"amount(usd)":'mean',"transaction_id":"count"}).reset_index()
