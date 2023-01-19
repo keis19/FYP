@@ -16,8 +16,8 @@ st.write (" Home page - Grey[Here you can upload your fie to get the number of f
 
 st.subheader("How do you use this application")
 st.write( "1. Firstly upload your file by clicking Grey[Import file]. red[IMPORTANT NOTE THE FILE SHOULD BE IN CSV FORMAT] "
-          +"2. Once the file has been uploaded you wait for a few minutes. Once it's ready to the total number of fradulent cases appears"
-          + "3. You can then head to the Exploratory Data Analysis (EDA) section to view some fantastic insights obtained from the dataset.")
+         +"2. Once the file has been uploaded you wait for a few minutes. Once it's ready to the total number of fradulent cases appears"
+         +"3. You can then head to the Exploratory Data Analysis (EDA) section to view some fantastic insights obtained from the dataset.")
          
 st.subheader("Want to know the powerful Machine Learning Algorithm (ML) powering this application?")
 st.write("The algorithm that we are using to classify fraud cases is the Random Forest Algorithm (RFA). We had conducted a series of tests and the algorithm"
