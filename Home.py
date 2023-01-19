@@ -69,6 +69,7 @@ st.markdown(
 def process_file(uploaded_file):
     try:
         df_train=pd.read_csv(uploaded_file)
+        st.session_state['df_train']=df_train
     except Exception as e:
         st.error("An error occurred while loading the file: " + str(e))
      
