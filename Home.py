@@ -45,7 +45,7 @@ st.set_page_config(
 )
 
 st.title("Something's Fishy")
-st.header("We'll help you discover if your data contains any fraud cases")
+st.header("We'll help you discover if your data contains any fraud cases. 🚨")
 st.sidebar.success("Select a page ⬆⬆.")
 
 st.markdown(
@@ -71,6 +71,11 @@ def process_file(uploaded_file):
         df_train=pd.read_csv(uploaded_file)
     except Exception as e:
         st.error("An error occurred while loading the file: " + str(e))
+     
+    
+    df_train = df_train.drop(df_train.columns[0], axis=1)
+    st.subheader("Data: ")
+    st.table(df_train.head())
 
     df_train.rename(columns={"trans_date_trans_time":"transaction_time",
                              "cc_num":"credit_card_number",
@@ -116,12 +121,8 @@ uploaded_file = st.file_uploader("Choose a file")
 if uploaded_file is None:
     st.error("Please upload a file")
 else:
-    df_train=pd.read_csv(uploaded_file)
-    # df_train= pd.read_csv("D:/Users/Acer/Desktop/Y3S1/Final Year Project/Datasets/fraudTrain.csv")
-    df_train = df_train.drop(df_train.columns[0], axis=1)
-    st.subheader("Data: ")
-    st.table(df_train.head())
     process_file(uploaded_file)
+    
     # uploaded = False
 # if not uploaded:
 #     uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
