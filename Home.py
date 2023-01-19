@@ -1,40 +1,46 @@
-import numpy as np 
-import pandas as pd 
+#!/usr/bin/env python
+# coding: utf-8
 
-import matplotlib.pyplot as plt
-from matplotlib.pyplot import figure
-import seaborn as sns
+# In[3]:
+
+
+# import matplotlib.pyplot as plt
+# from matplotlib.pyplot import figure
+import numpy as np
+import pandas as pd
+from pandas.plotting import parallel_coordinates
 
 from collections import Counter
 from datetime import datetime
 
+# Visualization
+# import seaborn as sns
 import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
 
+# Model
 import sklearn
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 from sklearn.preprocessing import OrdinalEncoder
 
-from sklearn.feature_selection import chi2
 from imblearn.over_sampling import SMOTE
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import average_precision_score, precision_recall_curve
-from sklearn.metrics import auc, plot_precision_recall_curve
+# from sklearn.metrics import average_precision_score, precision_recall_curve
+# from sklearn.metrics import auc, plot_precision_recall_curve
+# from sklearn.metrics import roc_auc_score
 
 import streamlit as st
 
-# In[4]:
+
+# In[7]:
+
 
 st.set_page_config(
-  page title: "Something's Fishy"
-  page_icon="🎣"
+  page_title= "Something's Fishy",
+  page_icon="🎣",
   layout="wide"
 )
 
@@ -49,14 +55,16 @@ st.markdown(
 """
 )
 
+
+# In[4]:
+
+
 uploaded_file = st.file_uploader("Choose a file")
 df_train=pd.read_csv(uploaded_file)
-
-# Reading csv files and drop the first column
-# df_train= pd.read_csv("C:/Users/Theeveeyan/Downloads/Keis/fraudTrain.csv")
+# df_train= pd.read_csv("D:/Users/Acer/Desktop/Y3S1/Final Year Project/Datasets/fraudTrain.csv")
 df_train = df_train.drop(df_train.columns[0], axis=1)
-
-df_train.head()
+st.subheader("Data: ")
+st.table(df_train.head())
 
 
 # In[5]:
@@ -78,8 +86,6 @@ df_train["dob"] = pd.to_datetime(df_train["dob"], infer_datetime_format=True)
 
 # In[7]:
 
-
-from datetime import datetime
 
 # Apply function utcfromtimestamp and drop column unix_time
 df_train['time'] = df_train['unix_time'].apply(datetime.utcfromtimestamp)
@@ -107,33 +113,15 @@ np.round(df_train.describe(), 2)
 # In[10]:
 
 
-df_train.columns
+features = ['credit_card_number', 'merchant', 'category',
+       'amount(usd)', 'zip',  'city_pop', 'job', 'transaction_id',
+       'unix_time','hour_of_day', 'merch_lat', 'merch_long','lat' ,'long']
 
-
-
-# In[12]:
-
-
-print(df_train['transaction_time'])
-
-
-# In[13]:
-
-
-
-
-# In[15]:
-
-
-features = ['transaction_id', 'hour_of_day', 'category', 'amount(usd)', 'merchant', 'job', 'credit_card_number', 'city_pop']
-
-# removed features related to location: lat, long , zip, street, city, state
-
-#
 X = df_train[features].set_index("transaction_id")
 y = df_train['is_fraud']
 
 print('X shape:{}\ny shape:{}'.format(X.shape,y.shape))
+
 
 enc = OrdinalEncoder(dtype=np.int64)
 enc.fit(X.loc[:,['category','merchant','job']])
@@ -141,7 +129,7 @@ enc.fit(X.loc[:,['category','merchant','job']])
 X.loc[:, ['category','merchant','job']] = enc.transform(X[['category','merchant','job']])
 
 
-# In[16]:
+# In[11]:
 
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, stratify=y)
@@ -149,221 +137,48 @@ print('X_train shape:{}\ny_train shape:{}'.format(X_train.shape,y_train.shape))
 print('X_test shape:{}\ny_test shape:{}'.format(X_test.shape,y_test.shape))
 
 
-# In[ ]:
+# In[12]:
 
 
-# # split first
-# # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
-# # then select features using the training set only
-# selector = SelectKBest(k=25)
-# X_train_selected = selector.fit_transform(X_train,y_train)
-
-# # fit again a simple logistic regression
-# lr.fit(X_train_selected,y_train)
-# # select the same features on the test set, predict, and get the test accuracy:
-# X_test_selected = selector.transform(X_test)
-# y_pred = lr.predict(X_test_selected)
-# accuracy_score(y_test, y_pred)
-# # 0.52800000000000002
-
-
-# In[17]:
-
-
-from sklearn.feature_selection import chi2
-f_p_values=chi2(X_train,y_train)
-f_p_values
-p_values=pd.Series(f_p_values[1])
-p_values.index=X_train.columns
-p_values.sort_index(ascending=False)
-
-
-# In[20]:
-
-
-import imblearn
-from imblearn.over_sampling import SMOTE
-smt = SMOTE()
+#SMOTE
+smt = SMOTE(sampling_strategy=0.1)
 X_train_smote, y_train_smote = smt.fit_resample(X_train.astype('float'), y_train)
 print("Before SMOTE:", Counter(y_train))
 print("After SMOTE:", Counter(y_train_smote))
 
 
-# In[21]:
+# In[14]:
 
 
-from sklearn.tree import DecisionTreeClassifier
-
-dtree= DecisionTreeClassifier()
-dtree.fit(X_train, y_train)
-y_pred = dtree.predict(X_test)
-print(classification_report(y_test,y_pred))
-from sklearn.metrics import average_precision_score, precision_recall_curve
-from sklearn.metrics import auc, plot_precision_recall_curve
-
-# Data to plot precision - recall curve
-precision, recall, thresholds = precision_recall_curve(y_test, y_pred)
-# Use AUC function to calculate the area under the curve of precision recall curve
-auc_precision_recall = auc(recall, precision)
-print(auc_precision_recall)
-plt.plot(recall, precision)
-fig1=plt.show()
-fig1
-
-fig2=plt.figure(figsize=(8,6))
-cfs_matrix=confusion_matrix(y_test,y_pred)
-sns.heatmap(cfs_matrix, cmap='viridis', annot=True, fmt='d', annot_kws=dict(fontsize=14))
-
-
-# In[22]:
-
-
-
-dtree= DecisionTreeClassifier()
-dtree.fit(X_train_smote, y_train_smote)
-y_pred = dtree.predict(X_test)
-print(classification_report(y_test,y_pred))
-
-
-# Data to plot precision - recall curve
-precision, recall, thresholds = precision_recall_curve(y_test, y_pred)
-# Use AUC function to calculate the area under the curve of precision recall curve
-auc_precision_recall = auc(recall, precision)
-print(auc_precision_recall)
-plt.plot(recall, precision)
-fig1=plt.show()
-fig1
-
-fig2=plt.figure(figsize=(8,6))
-cfs_matrix=confusion_matrix(y_test,y_pred)
-sns.heatmap(cfs_matrix, cmap='viridis', annot=True, fmt='d', annot_kws=dict(fontsize=14))
-
-
-# In[23]:
-
-
-print('Random Forest Algorithm')
-from sklearn.ensemble import RandomForestClassifier
-
-rf_random = RandomForestClassifier()
-rf_random.fit(X_train, y_train)
-y_pred = rf_random.predict(X_test)
-
-# Print report
-print(classification_report(y_test, y_pred))
-
-
-# Data to plot precision - recall curve
-precision, recall, thresholds = precision_recall_curve(y_test, y_pred)
-# Use AUC function to calculate the area under the curve of precision recall curve
-auc_precision_recall = auc(recall, precision)
-print(auc_precision_recall)
-plt.plot(recall, precision)
-fig1=plt.show()
-fig1
-
-fig2=plt.figure(figsize=(8,6))
-cfs_matrix=confusion_matrix(y_test,y_pred)
-st.write(sns.heatmap(cfs_matrix, cmap='viridis', annot=True, fmt='d', annot_kws=dict(fontsize=14)))
-
-
-# In[24]:
-
-
-print('SMOTE')
-rf_random = RandomForestClassifier()
-rf_random.fit(X_train_smote, y_train_smote)
-y_pred = rf_random.predict(X_test)
-print(classification_report(y_test, y_pred))
-
-# Data to plot precision - recall curve
-precision, recall, thresholds = precision_recall_curve(y_test, y_pred)
-# Use AUC function to calculate the area under the curve of precision recall curve
-auc_precision_recall = auc(recall, precision)
-print(auc_precision_recall)
-plt.plot(recall, precision)
-fig1=plt.show()
-fig1
-
-fig2=plt.figure(figsize=(8,6))
-cfs_matrix=confusion_matrix(y_test,y_pred)
-sns.heatmap(cfs_matrix, cmap='viridis', annot=True, fmt='d', annot_kws=dict(fontsize=14))
-
-
-# In[25]:
-
-
-print("XG Boost Classifier")
-from sklearn.ensemble import GradientBoostingClassifier
-XG_random = GradientBoostingClassifier()
-
-XG_random.fit(X_train, y_train)
-y_pred = XG_random.predict(X_test)
-
-# Print reprort
-print(classification_report(y_test, y_pred))
-
-
-# In[33]:
-
-
-print("SMOTE- XG Boost Classifier")
-
-XG_random = GradientBoostingClassifier()
-
-XG_random.fit(X_train_smote, y_train_smote)
-y_pred = XG_random.predict(X_test)
-
-# Print reprort
-print(classification_report(y_test, y_pred))
-
-
-# In[32]:
-
-
-print("Logistic Regression")
-from sklearn.linear_model import LogisticRegression
-
-LR= LogisticRegression()
-LR.fit(X_train, y_train)
-y_pred = LR.predict(X_test)
-
-print(classification_report(y_test,y_pred))
-
-
-# In[27]:
-
-
-print("SMOTE- Logistic Regression")
-
-LR= LogisticRegression()
-LR.fit(X_train_smote, y_train_smote)
-y_pred = LR.predict(X_test)
-
-print(classification_report(y_test,y_pred))
-
-
-# In[28]:
-
-
-print('KNC')
-from sklearn.neighbors import KNeighborsClassifier
-KNC= KNeighborsClassifier()
-KNC.fit(X_train, y_train)
-y_pred = KNC.predict(X_test)
-
-print(classification_report(y_test,y_pred))
-
-
-# In[29]:
-
-
-print('SMOTE-KNC')
 KNC= KNeighborsClassifier()
 KNC.fit(X_train_smote, y_train_smote)
 y_pred = KNC.predict(X_test)
-
 print(classification_report(y_test,y_pred))
+
+# # Data to plot precision - recall curve
+# precision, recall, thresholds = precision_recall_curve(y_test, y_pred)
+# # Use AUC function to calculate the area under the curve of precision recall curve
+# auc_precision_recall = auc(recall, precision)
+# # plt.plot(recall, precision)
+# # fig1=plt.title('K Neighbors with SMOTE')
+# # fig1=plt.show()
+# # fig1
+
+# roc_auc = roc_auc_score(y_test, y_pred)
+# print("AUC-PR (SMOTE): %.3f " % auc_precision_recall)
+# print("ROC AUC (SMOTE): %.3f" % roc_auc)
+
+
+# In[16]:
+
+
+# fig2=plt.figure(figsize=(8,6))
+cm=confusion_matrix(y_test,y_pred)
+tn, fp, fn,tp = cm.ravel()
+print("Correctly predicted fraud cases: ", tp)
+st.subheader("There are a total of: ", tp ,"cases")
+
+# sns.heatmap(cm, cmap='viridis', annot=True, fmt='d', annot_kws=dict(fontsize=14))
 
 
 # In[ ]:
