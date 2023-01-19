@@ -10,12 +10,12 @@ st.write("In this current era, payments by credit card have become easier than e
 + "you detect the amount of fraud cases present within your dataset.")
 
 st.subheader("What can you find this application?")
-st.write (" Home page - Grey[Here you can upload your fie to get the number of fradulent cases]"
-         + "EDA - Grey[Here you can find some interesting data visualization related to your dataset"
-         + "Documentation - This page (The One You're In) is where you get details on how to use the application")
+st.write ("Home page -Here you can upload your fie to get the number of fradulent cases")
+st.write("EDA - Here you can find some interesting data visualization related to your dataset")
+st.write("Documentation - This page (The One You're In) is where you get details on how to use the application")
 
 st.subheader("How do you use this application")
-st.write( "1. Firstly upload your file by clicking Grey[Import file]. red[IMPORTANT NOTE THE FILE SHOULD BE IN CSV FORMAT] ")
+st.write( "1. Firstly upload your file by clicking Import file. (IMPORTANT NOTE THE FILE SHOULD BE IN CSV FORMAT) ")
 st.write( "2. Once the file has been uploaded you wait for a few minutes. Once it's ready to the total number of fradulent cases appears")
 st.write("3. You can then head to the Exploratory Data Analysis (EDA) section to view some fantastic insights obtained from the dataset.")
          
