@@ -52,6 +52,7 @@ fig.for_each_xaxis(lambda xaxis: xaxis.update(showticklabels=True, title=''))
 
 st.subheader("Exploratory Data Analysis 1")
 st.write(fig)
+st.subheader("Explanation:")
 st.write("From this we get an overview on mean amount spend on Fradulent and Non-Fradulent cases based on category. We can see that some of the categories like travel, health & fintess and grocery have low spending for fraulent cases. While categoris like shopping, and entertainment have high expenditure. ")
 
 groups =['is_fraud','job']
@@ -89,6 +90,7 @@ fig.update_coloraxes(
 
 st.subheader("Exploratory Data Analysis 2")
 st.write(fig)
+st.subheader("Explanation:")
 st.write("From this we can get an overview of jobs with heavy fradulent transactions.")
 
 
@@ -124,6 +126,7 @@ fig.for_each_yaxis(lambda yaxis: yaxis.update(showticklabels=True))
 
 st.write("Exploratory Data Analysis 3")
 st.write(fig)
+st.subheader("Explanation:")
 st.write("From this we can get a see of the few of the merchants in which credit card fraud occurs rapidly. This is a good visual to help detect common places visited by fraudsters. Some of the merchants to keep an eye out within this dataset would the merchant Killback LLC, Boyer PLC and Kuhn LLC.")
 
 
