@@ -116,6 +116,11 @@ def process_file(uploaded_file):
     y_pred = KNC.predict(X_test)
     print(classification_report(y_test,y_pred))
     
+    cm=confusion_matrix(y_test,y_pred)
+    tn, fp, fn,tp = cm.ravel()
+    print("Correctly predicted fraud cases: ", tp)
+    st.subheader("There are a total of: ", tp ,"cases")
+    
     
 uploaded_file = st.file_uploader("Choose a file")
 if uploaded_file is None:
