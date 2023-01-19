@@ -69,11 +69,19 @@ st.markdown(
 def process_file(uploaded_file):
     try:
         df_train=pd.read_csv(uploaded_file)
-        st.session_state['df_train']=df_train
+        
     except Exception as e:
         st.error("An error occurred while loading the file: " + str(e))
      
     
+    # Initialization
+    if 'key' not in st.session_state:
+      st.session_state['key'] = df_train
+
+    # Session State also supports attribute based syntax
+    if 'key' not in st.session_state:
+      st.session_state.key = df_train
+      
     df_train = df_train.drop(df_train.columns[0], axis=1)
     st.subheader("Data: ")
     st.table(df_train.head())
