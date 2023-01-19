@@ -119,7 +119,7 @@ def process_file(uploaded_file):
     cm=confusion_matrix(y_test,y_pred)
     tn, fp, fn,tp = cm.ravel()
     print("Correctly predicted fraud cases: ", tp)
-    st.subheader("There are a total of: ", tp ,"cases")
+    st.write("There are a total of: ", tp ,"cases")
     
     
 uploaded_file = st.file_uploader("Choose a file")
