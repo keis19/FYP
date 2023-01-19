@@ -87,4 +87,4 @@ fig.update_coloraxes(
     reversescale=True
 )
 
-st.pyplot(fig())
+st.write(fig)
