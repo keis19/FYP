@@ -91,7 +91,7 @@ fig.update_coloraxes(
 st.subheader("Exploratory Data Analysis 2")
 st.write(fig)
 st.subheader("Explanation:")
-st.write("From this we can get an overview of jobs with heavy fradulent transactions.")
+st.write("From this we can get an overview of jobs with heavy fradulent transactions. Thhe top 3 include Science writer, licensed conveyancer and systems developer.")
 
 
 # Specified list of 12 merchants with the highest number of transactions.
@@ -124,7 +124,7 @@ fig.update_layout(height=1200,
 fig.update_yaxes(title='Mean Amount (USD)', matches=None)
 fig.for_each_yaxis(lambda yaxis: yaxis.update(showticklabels=True))
 
-st.write("Exploratory Data Analysis 3")
+st.subheader("Exploratory Data Analysis 3")
 st.write(fig)
 st.subheader("Explanation:")
 st.write("From this we can get a see of the few of the merchants in which credit card fraud occurs rapidly. This is a good visual to help detect common places visited by fraudsters. Some of the merchants to keep an eye out within this dataset would the merchant Killback LLC, Boyer PLC and Kuhn LLC.")
@@ -153,6 +153,7 @@ fig.update_xaxes(type='category')
 
 st.subheader("Exploratory Data Analysis 3")
 st.write(fig)
+st.subheader("Explanation")
 st.write("From this we can see the common hours of the day in which fradulents transactions take place. Based on the figure it can be seen that alot of fradulents transaction take place during night to midnight.")
 
 df_ = df_train.groupby(by=[pd.Grouper(key="transaction_time", freq="1M"),
