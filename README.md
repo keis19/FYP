@@ -1,9 +1,8 @@
-# 📦 Streamlit App Starter Kit 
-```
-⬆️ (Replace above with your app's name)
-```
+# 🐠 Welcome to Something's Fishy
+
 
 Description of the app ...
+This application uses KNeighbors Classification to identify the total number of Fradulent Cases within your dataset.
 
 ## Demo App
 
