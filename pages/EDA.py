@@ -26,8 +26,7 @@ df_train.hour_of_day = df_train.hour_of_day.astype('category')
 
 df_ = df_train.groupby(by=[pd.Grouper(key="transaction_time", freq="1W"),
                            'is_fraud','category']).agg({"amount(usd)":'mean',"transaction_id":"count"}).reset_index()
-df_ = df_train.groupby(by=[pd.Grouper(key="transaction_time", freq="1W"),
-                           'is_fraud','category']).agg({"amount(usd)":'mean',"transaction_id":"count"}).reset_index()
+
 
 fig = px.scatter(df_,
         x='transaction_time',
@@ -60,7 +59,7 @@ df_ = df_train.groupby(by=groups).agg({"amount(usd)":'mean',"transaction_id":"co
 # Top 10 jobs had most fraud transactions.
 df_ = df_[df_.is_fraud==1].sort_values(by='transaction_id',
                                        ascending=False).drop_duplicates('job', keep='first').iloc[:10, :]
-df_
+
 fig = px.bar(df_,
              y='job', x='transaction_id',
              color='amount(usd)',
