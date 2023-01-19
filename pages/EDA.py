@@ -47,8 +47,8 @@ fig.update_yaxes(matches=None)
 fig.for_each_yaxis(lambda yaxis: yaxis.update(showticklabels=True))
 fig.for_each_xaxis(lambda xaxis: xaxis.update(showticklabels=True, title=''))
 
-st.write(fig.show())
-st.write("hello")
+fig.show()
+
 
 
 # In[14]:
@@ -87,4 +87,4 @@ fig.update_coloraxes(
     reversescale=True
 )
 
-st.write(fig.show())
+fig.show()
