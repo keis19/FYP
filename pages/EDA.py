@@ -48,7 +48,7 @@ fig.for_each_yaxis(lambda yaxis: yaxis.update(showticklabels=True))
 fig.for_each_xaxis(lambda xaxis: xaxis.update(showticklabels=True, title=''))
 
 st.write(fig.show())
-st.write("hello)
+st.write("hello")
 
 
 # In[14]:
