@@ -4,34 +4,22 @@
 # In[3]:
 
 
-# import matplotlib.pyplot as plt
-# from matplotlib.pyplot import figure
 import numpy as np
 import pandas as pd
 from pandas.plotting import parallel_coordinates
 
 from collections import Counter
 from datetime import datetime
-
-# Visualization
-# import seaborn as sns
 import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
-
-# Model
 import sklearn
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 from sklearn.preprocessing import OrdinalEncoder
-
 from imblearn.over_sampling import SMOTE
 from sklearn.neighbors import KNeighborsClassifier
-# from sklearn.metrics import average_precision_score, precision_recall_curve
-# from sklearn.metrics import auc, plot_precision_recall_curve
-# from sklearn.metrics import roc_auc_score
-
 import streamlit as st
 
 
@@ -59,12 +47,20 @@ st.markdown(
 # In[4]:
 
 
-uploaded_file = st.file_uploader("Choose a file")
+uploaded_file = st.file_uploader("Select a CSV file")
 df_train=pd.read_csv(uploaded_file)
-# df_train= pd.read_csv("D:/Users/Acer/Desktop/Y3S1/Final Year Project/Datasets/fraudTrain.csv")
 df_train = df_train.drop(df_train.columns[0], axis=1)
 st.subheader("Data: ")
 st.table(df_train.head())
+
+try:
+    uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
+    if uploaded_file is None:
+        st.error("Please upload a file")
+    else:
+        df_train=pd.read_csv(uploaded_file)
+except Exception as e:
+    st.error("An error occurred while loading the file: " + str(e))
 
 
 # In[5]:
