@@ -22,7 +22,7 @@ st.write( "1. Firstly upload your file by clicking Grey[Import file]. red[IMPORT
 st.subheader("Want to know the powerful Machine Learning Algorithm (ML) powering this application?")
 st.write("The algorithm that we are using to classify fraud cases is the Random Forest Algorithm (RFA). We had conducted a series of tests on the algorithm and sampling."
          + "The best performance with datasets that have undergone Synthetics Minority Over-Sampling Technique (SMOTE) were on K-Neighbors Classifier. Thus, we have used"
-         + "that for this application.
+         + "that for this application."
          +" Want to learn more about K Neighbors Classifier click this [link] (https://www.ibm.com/my-en/topics/knn)")
          
          
