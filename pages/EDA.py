@@ -87,4 +87,4 @@ fig.update_coloraxes(
     reversescale=True
 )
 
-fig.show()
+st.pyplot(fig.show())
