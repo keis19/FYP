@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title("'welcome To Something's Fishy emojis:fish:'")
+st.title("Welcome To Something's Fishy 🐠")
 
 
 st.subheader("Information about the project")
