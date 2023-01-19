@@ -53,14 +53,25 @@ df_train = df_train.drop(df_train.columns[0], axis=1)
 st.subheader("Data: ")
 st.table(df_train.head())
 
-try:
+uploaded = False
+if not uploaded:
     uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
-    if uploaded_file is None:
-        st.error("Please upload a file")
-    else:
-        df_train=pd.read_csv(uploaded_file)
+    uploaded = True
+if uploaded_file is None:
+    st.error("Please upload a file")
+else:
+    df_train=pd.read_csv(uploaded_file)
 except Exception as e:
     st.error("An error occurred while loading the file: " + str(e))
+    
+# try:
+#     uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
+#     if uploaded_file is None:
+#         st.error("Please upload a file")
+#     else:
+#         df_train=pd.read_csv(uploaded_file)
+# except Exception as e:
+#     st.error("An error occurred while loading the file: " + str(e))
 
 
 # In[5]:
