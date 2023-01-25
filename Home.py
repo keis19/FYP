@@ -39,7 +39,7 @@ import streamlit as st
 
 
 st.set_page_config(
-  page_title= "Something's Fishy",
+  page_title= "Something's Fishy 🐠",
   page_icon="🎣",
   layout="wide"
 )
