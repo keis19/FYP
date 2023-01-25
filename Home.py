@@ -44,7 +44,7 @@ st.set_page_config(
   layout="wide"
 )
 
-st.title("Something's Fishy")
+st.title("Something's Fishy 🐠")
 st.header("We'll help you discover if your data contains any fraud cases. 🚨")
 st.sidebar.success("Select a page.")
 
