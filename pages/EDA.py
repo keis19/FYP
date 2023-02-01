@@ -151,7 +151,7 @@ fig.update_layout(
 
 fig.update_xaxes(type='category')
 
-st.subheader("Exploratory Data Analysis 3")
+st.subheader("Exploratory Data Analysis 4")
 st.write(fig)
 st.subheader("Explanation")
 st.write("From this we can see the common hours of the day in which fradulents transactions take place. Based on the figure it can be seen that alot of fradulents transaction take place during night to midnight.")
@@ -174,7 +174,7 @@ fig.update_layout(height=600,
                   plot_bgcolor='#fafafa'
                  )
 
-st.subheader("Exploratory Data Analysis 4")
+st.subheader("Exploratory Data Analysis 5")
 st.write(fig)
 st.subheader("Explanation:")
 st.write("From this visualization we can see the months with highest expenditure based on category. It can clearly be seen that food and dining has the highest amoun spent and it occurs during Late November. Gas and transport also has a high expenditure during the month of September")
